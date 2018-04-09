@@ -1,7 +1,3 @@
-
-
-#Start markov
-
 function Get-MarkovSentence {
 	[CmdletBinding()]
 	param (
@@ -64,7 +60,3 @@ function Get-MarkovSentence {
 	end {
 	}
 }
-
-#$startWords = ($listdata | Get-Random).split(" ") | select -first 2
-
-#$nextword = (($listdata | where {($_.split(" ")) -eq $startWords[1]} | get-random).split(" ")).indexof("$startWords[1]")
