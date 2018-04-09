@@ -1,0 +1,21 @@
+1:1
+Lookup | folow | rating
+A | cat | 2
+cat | smells | 2
+A | bird  | 1
+bird | eats | 1
+bird | smells | 1
+smells | bad. | 1
+eats | shit.| 1
+
+a cat smells bad.
+a bird eats shit.
+a bird smells bad.
+
+
+
+
+
+a | cat | 1
+a | cat | 1
+a | bird| 2
