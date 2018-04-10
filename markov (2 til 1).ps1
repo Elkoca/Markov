@@ -28,18 +28,19 @@ function Get-MarkovSentence {
 					$Lookup = $words[$i] + " " + $words[$i + 1]
 					$Follow = $words[$i + 2]
 					
-					$Exsistingline = $DB.where({$_.Lookup -eq $Lookup -and $_.Follow -eq $Follow})
+					#Kutter ut Rating pga det gikk sykt tregt
+					# $Exsistingline = $DB.where({$_.Lookup -eq $Lookup -and $_.Follow -eq $Follow})
 
-					if($Exsistingline){
-						$index = $DB.IndexOf($Exsistingline)
-						$DB[$index].rating += 1
-					}else{
+					# if($Exsistingline){
+					# 	$index = $DB.IndexOf($Exsistingline)
+					# 	$DB[$index].rating += 1
+					# }else{
 						$DB += [pscustomobject]@{
 							Lookup = $Lookup
 							Follow = $Follow
-							rating = 1
+							# rating = 1
 						}
-					}
+					# }
 				}
 			}
 		}
@@ -53,7 +54,7 @@ function Get-MarkovSentence {
 			$PossibleWords = ($DB.where({$_.Lookup -eq "$($splittedOutput[-2]) $($splittedOutput[-1])"})) 
 			$CurrentWord = ($PossibleWords | get-random).Follow
 			$PossibleWords | ForEach-Object {
-				Write-Verbose "$($_.lookup) + $($_.Follow) + $($_.rating)"
+				Write-Verbose "$($_.lookup) + $($_.Follow)"
 			}
 			$splittedOutput += $CurrentWord
 			$count++
