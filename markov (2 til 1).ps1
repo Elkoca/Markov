@@ -11,7 +11,7 @@ function Get-MarkovSentence {
 
 		$listdata = get-content -Path $DataPath -Encoding UTF8
 
-		#split wordlist til et forståelig object
+		#split wordlist til et forståelig object (Det er denne som tar tid.)
 		$Starters = $listdata | ForEach-Object {$_.split(" ")[0] + " " + $_.split(" ")[1]}
 
 		#DB creation
@@ -52,6 +52,9 @@ function Get-MarkovSentence {
 		while ($CurrentWord -notmatch "(\.$)|(^$)" -and $count -lt 100) {
 			$PossibleWords = ($DB.where({$_.Lookup -eq "$($splittedOutput[-2]) $($splittedOutput[-1])"})) 
 			$CurrentWord = ($PossibleWords | get-random).Follow
+			$PossibleWords | ForEach-Object {
+				Write-Verbose "$($_.lookup) + $($_.Follow) + $($_.rating)"
+			}
 			$splittedOutput += $CurrentWord
 			$count++
 		}
