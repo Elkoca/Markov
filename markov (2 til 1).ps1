@@ -12,8 +12,9 @@ function Get-MarkovSentence {
 		$listdata = get-content -Path $DataPath -Encoding UTF8
 
 		#split wordlist til et forståelig object
-		$Starters = $listdata | foreach {$_.split(" ")[0] + " " + $_.split(" ")[1]}
+		$Starters = $listdata | ForEach-Object {$_.split(" ")[0] + " " + $_.split(" ")[1]}
 
+		#DB creation
 		$DB = @()
 		foreach ($data in $listdata){
 			$words = $data.Split(" ")
@@ -43,17 +44,18 @@ function Get-MarkovSentence {
 			}
 		}
 
-		
+		#markovLogic
 		$CurrentWord = $Starters | Get-Random
-
-		$output = "$CurrentWord "
+		$splittedOutput += $CurrentWord.trim().split(" ") 
 
 		$count = 1
 		while ($CurrentWord -notmatch "(\.$)|(^$)" -and $count -lt 100) {
-			$CurrentWord = (($DB.where({$_.Lookup -eq "$($output.trim().split(" ").trim()[-2]) $($output.trim().split(" ").trim()[-1])"})) | get-random).Follow
-			$output += "$CurrentWord "
+			$PossibleWords = ($DB.where({$_.Lookup -eq "$($splittedOutput[-2]) $($splittedOutput[-1])"})) 
+			$CurrentWord = ($PossibleWords | get-random).Follow
+			$splittedOutput += $CurrentWord
 			$count++
 		}
+		$Output = $splittedOutput -join " "
 		$Output
 		
 	}
