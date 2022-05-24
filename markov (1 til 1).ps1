@@ -1,7 +1,7 @@
 function Get-MarkovSentence {
 	[CmdletBinding()]
 	param (
-		$DataPath = "C:\Programering\Powershell\markov\wordlist.txt"
+		$DataPath = ".\wordlist.txt"
 	)
 	
 	begin {
@@ -16,7 +16,6 @@ function Get-MarkovSentence {
 		$DB = @()
 		foreach ($data in $listdata){
 			$words = $data.Split(" ")
-			$counter = 0
 
 			for ($i = 0; $i -lt $words.Count; $i++) {
 				if($words[$i] -match "(\.$)|(^$)" ){
